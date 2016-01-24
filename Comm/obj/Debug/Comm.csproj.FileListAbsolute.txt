@@ -1,0 +1,4 @@
+D:\C#_Project\socket_c\Comm\bin\Debug\Comm.dll
+D:\C#_Project\socket_c\Comm\bin\Debug\Comm.pdb
+D:\C#_Project\socket_c\Comm\obj\Debug\Comm.dll
+D:\C#_Project\socket_c\Comm\obj\Debug\Comm.pdb

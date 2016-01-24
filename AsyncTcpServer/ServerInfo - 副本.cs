@@ -1,0 +1,116 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Sockets;
+using System.Text;
+
+namespace AsyncTcpServer
+{
+    /// <summary>
+    /// 客户端消息实体
+    /// </summary>
+    [Serializable] 
+    public class ServerInfo
+    {
+        public ServerContentInfo Content { get; set; }
+        public TcpClient client { get; private set; }
+
+        public BinaryReader br { get; private set; }
+
+        public BinaryWriter bw { get; private set; }
+        public ServerInfo(TcpClient _client)
+        {
+            if (_client != null)
+            {
+                this.client = _client;
+                NetworkStream networkStream = client.GetStream();
+                br = new BinaryReader(networkStream);
+                bw = new BinaryWriter(networkStream);
+            }
+            
+        }
+        public void Close()
+        {
+            br.Close();
+            bw.Close();
+            client.Close();
+        }
+    }
+
+    [Serializable] 
+    public class ServerContentInfo
+    {
+        /// <summary>
+        /// 客户端名称
+        /// </summary>
+        public string ClientName { get; set; }
+
+        /// <summary>
+        /// 操作
+        /// </summary>
+        public SocketOrder Order { get; set; }
+
+        /// <summary>
+        /// 目标服务器
+        /// </summary>
+        public string AimName { get; set; }
+
+        /// <summary>
+        /// 值或信息
+        /// </summary>
+        public string DataInfo { get; set; }
+    }
+    /// <summary>
+    /// 命令
+    /// </summary>
+    public enum SocketOrder
+    {
+
+        /// <summary>
+        /// 登录
+        /// </summary>
+        Login = 20001,
+        /// <summary>
+        /// 下线
+        /// </summary>
+        Logout = 20002,
+        /// <summary>
+        /// 服务器下线
+        /// </summary>
+        ServerLogout=20003,
+        /// <summary>
+        /// 开始注册
+        /// </summary>
+        StartReg = 10001,
+        /// <summary>
+        /// 注册成功
+        /// </summary>
+        RegSuccess = 10002,
+        /// <summary>
+        /// 开始出乘考勤
+        /// </summary>
+        StartCckq = 10003,
+        /// <summary>
+        /// 出乘考勤成功
+        /// </summary>
+        CckqSuccess = 10004,
+        /// <summary>
+        /// 开始退乘考勤
+        /// </summary>
+        StartTckq = 10005,
+        /// <summary>
+        /// 退乘考勤成功
+        /// </summary>
+        TckqSuccess = 10006,
+        /// <summary>
+        /// 下载开始
+        /// </summary>
+        StartDown = 10007,
+        /// <summary>
+        /// 下载完成
+        /// </summary>
+        DownSuccess=10008
+
+    }
+}
